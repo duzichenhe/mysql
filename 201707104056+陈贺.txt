@@ -1,112 +1,70 @@
-Microsoft Windows [版本 10.0.17134.345]
-(c) 2018 Microsoft Corporation。保留所有权利。
+use taobao;
 
-C:\WINDOWS\system32>net start mysql80
-请求的服务已经启动。
+create table yonghu(
 
-请键入 NET HELPMSG 2182 以获得更多的帮助。
+yonghu_id smallint unsigned not null auto_increment,
+
+yonghu_name varchar(20) not null,zhuangbei_id smallint unsigned not null,
+
+last_update timestamp NOT NULL default current_timestamp,primary key(yonghu_id),
+
+key `idx_fk_zhuangbei_id`(zhuangbei_id),constraint`FK_zhuangbei_yonghu`foreign key (zhuangbei_id)
+
+references zhuangbei(zhuangbei_id) 
+on delete restrict on update cascade
+)
+ engine=InnoDB default charset = utf8;
 
 
-C:\WINDOWS\system32>mysql -u root -p
-Enter password: ******
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 44
-Server version: 8.0.12 MySQL Community Server - GPL
 
-Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql> show databases;
-+--------------------+
-| Database           |
-+--------------------+
-| first_schema       |
-| information_schema |
-| mysql              |
-| performance_schema |
-| sys                |
-| taobao             |
-| tongji2            |
-+--------------------+
-7 rows in set (0.00 sec)
+use taobao;
 
-mysql> use tongji2;
-Database changed
-mysql> create table dianying(dianyingname varchar(20not null,daoyanname varchar(30)not null)
-    -> (year int null,gaofen int not null);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '20not null,daoyanname varchar(30)not null)
-(year int null,gaofen int not null)' at line 1
-mysql> create table dianying(dianyingname varchar(20not null,daoyanname varchar(30)not null,year int null,gaofen int not null)
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '20not null,daoyanname varchar(30)not null,year int null,gaofen int not null)' at line 1
-mysql> create table dianying(dianyingname varchar(20) not null,daoyanname varchar(30)not null,year int null,gaofen int not null);
-Query OK, 0 rows affected (0.08 sec)
+create table zhuangbei(
+zhuangbei_id smallint unsigned not null auto_increment,
 
-mysql> desc dianying;
-+--------------+-------------+------+-----+---------+-------+
-| Field        | Type        | Null | Key | Default | Extra |
-+--------------+-------------+------+-----+---------+-------+
-| dianyingname | varchar(20) | NO   |     | NULL    |       |
-| daoyanname   | varchar(30) | NO   |     | NULL    |       |
-| year         | int(11)     | YES  |     | NULL    |       |
-| gaofen       | int(11)     | NO   |     | NULL    |       |
-+--------------+-------------+------+-----+---------+-------+
-4 rows in set (0.00 sec)
+zhuangbei_name varchar(40) not null ,zhuangbei_monry int unsigned not null,
 
-mysql> insert into dianying(dianyingname,daoyanname,year,gaofen)values('jijingzhiling',2018,'kl',6.6),('wukongzhuan','gzj',2018,5.0);
-ERROR 1366 (HY000): Incorrect integer value: 'kl' for column 'year' at row 1
-mysql> insert into dianying(dianyingname,daoyanname,year,gaofen) values('jijingzhiling',2018,'kl',6.6),('wukongzhuan','gzj',2018,5.0);
-ERROR 1366 (HY000): Incorrect integer value: 'kl' for column 'year' at row 1
-mysql> insert into dianying(dianyingname,daoyanname,year,gaofen) values('jijingzhiling','kl',2018,6.6),('wukongzhuan','gzj',2018,5.0);
-Query OK, 2 rows affected (0.08 sec)
-Records: 2  Duplicates: 0  Warnings: 0
+last_update timestamp default current_timestamp
 
-mysql> select * from dianying;
-+---------------+------------+------+--------+
-| dianyingname  | daoyanname | year | gaofen |
-+---------------+------------+------+--------+
-| jijingzhiling | kl         | 2018 |      7 |
-| wukongzhuan   | gzj        | 2018 |      5 |
-+---------------+------------+------+--------+
-2 rows in set (0.00 sec)
+on update current_timestamp,
+primary key(zhuangbei_id) 
+)
+engine=innodb default charset=utf8;
 
-mysql> select dianyingmingzi from dianying where daoyanname='wukongzhuan';
-ERROR 1054 (42S22): Unknown column 'dianyingmingzi' in 'field list'
-mysql> select dianyingname from dianying where daoyanname='wukongzhuan';
-Empty set (0.00 sec)
 
-mysql> select dianyingname from dianying like daoyanname='wukongzhuan';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'like daoyanname='wukongzhuan'' at line 1
-mysql> select dianyingname from dianying where dianyingname like daoyannamelike'%wukongzhuan%';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''%wukongzhuan%'' at line 1
-mysql> select dianyingname from dianying where dianyingname like'%wukongzhuan%';
-+--------------+
-| dianyingname |
-+--------------+
-| wukongzhuan  |
-+--------------+
-1 row in set (0.00 sec)
 
-mysql> select daoyanname from dianying where daoyanname like'%gzj%';
-+------------+
-| daoyanname |
-+------------+
-| gzj        |
-+------------+
-1 row in set (0.00 sec)
 
-mysql> select year from dianying where year like'%2018%';
-+------+
-| year |
-+------+
-| 2018 |
-| 2018 |
-+------+
-2 rows in set (0.00 sec)
+use taobao;
 
-mysql>
+insert into zhuangbei(zhuangbei_name,zhuangbei_monry)
+value('qiang',5),('jian',6),('qian',8),('jian',3);
+
+
+# zhuangbei_id, zhuangbei_name, zhuangbei_monry, last_update
+           1,                     qiang,                    5,        2018-11-17 10:04:06
+           2,                       jian,                      6,       2018-11-17 10:04:06
+           3,                      qian,                     8,        2018-11-17 10:04:06
+           4,                       jian,                     3,       2018-11-17 10:04:06
+
+
+
+
+
+use taobao;
+
+insert into yonghu(yonghu_name,zhuangbei_id) values
+('xiaojing',1),('wenjing',1),('jianan',2);
+
+
+
+# yonghu_id, yonghu_name, zhuangbei_id, last_update
+         1,               xiaojing,              1,       2018-11-17 10:08:56
+         2,                wenjing,             1,       2018-11-17 10:08:56
+         3,                jianan,                2,       2018-11-17 10:08:56
+
+
+
+
