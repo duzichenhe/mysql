@@ -1,69 +1,77 @@
 use taobao;
 
-create table yonghu(
-
-yonghu_id smallint unsigned not null auto_increment,
-
-yonghu_name varchar(20) not null,zhuangbei_id smallint unsigned not null,
-
-last_update timestamp NOT NULL default current_timestamp,primary key(yonghu_id),
-
-key `idx_fk_zhuangbei_id`(zhuangbei_id),constraint`FK_zhuangbei_yonghu`foreign key (zhuangbei_id)
-
-references zhuangbei(zhuangbei_id) 
-on delete restrict on update cascade
-)
- engine=InnoDB default charset = utf8;
+create or replace view view_y_z(yonghu_name,zhuanngbei_monry)as 
+select yonghu.yonghu_name,zhuangbei.zhuangbei_monry from yonghu,zhuangbei;
 
 
 
+
+
+
+# yonghu_name, zhuanngbei_monry
+         xiaojing,                5
+         wenjing,                5
+         jianan,                   5
+        xiaojing,                 6
+         wenjing,                6
+         jianan,                   6
+         xiaojing   ,             8
+         wenjing,                8
+         jianan,                   8
+         xiaojing,                3
+         wenjing,                3
+          jianan,                  3
+
+
+use taobao;
+
+create or replace view view_y_z(yonghu_name,zhuangbei_monry) as
+select yonghu.yonghu_name,zhuangbei.zhuangbei_monry from yonghu,zhuangbei;
+
+use taobao;
+Database changed
+mysql> update view_y_z set zhuangbei_monry=5;
+Query OK, 3 rows affected (0.04 sec)
+Rows matched: 4  Changed: 3  Warnings: 0
+
+mysql> select * from view_z;
+ERROR 1146 (42S02): Table 'taobao.view_z' doesn't exist
+mysql> select * from view_y_z;
++-------------+-----------------+
+| yonghu_name | zhuangbei_monry |
++-------------+-----------------+
+| xiaojing    |               5 |
+| wenjing     |               5 |
+| jianan      |               5 |
+| xiaojing    |               5 |
+| wenjing     |               5 |
+| jianan      |               5 |
+| xiaojing    |               5 |
+| wenjing     |               5 |
+| jianan      |               5 |
+| xiaojing    |               5 |
+| wenjing     |               5 |
+| jianan      |               5 |
++-------------+-----------------+
+12 rows in set (0.00 sec)
+
+mysql>
 
 
 
 use taobao;
 
-create table zhuangbei(
-zhuangbei_id smallint unsigned not null auto_increment,
+create or replace view view_c_a(zhuangbei_monry,count_zhuangbei_monry)as
+select zhuangbei_monry,count(zhuangbei_monry) from zhuangbei group by zhuangbei_monry;
 
-zhuangbei_name varchar(40) not null ,zhuangbei_monry int unsigned not null,
 
-last_update timestamp default current_timestamp
 
-on update current_timestamp,
-primary key(zhuangbei_id) 
-)
-engine=innodb default charset=utf8;
+ zhuangbei_monry, count_zhuangbei_monry
+               5,                                        4
 
 
 
 
-use taobao;
-
-insert into zhuangbei(zhuangbei_name,zhuangbei_monry)
-value('qiang',5),('jian',6),('qian',8),('jian',3);
-
-
-# zhuangbei_id, zhuangbei_name, zhuangbei_monry, last_update
-           1,                     qiang,                    5,        2018-11-17 10:04:06
-           2,                       jian,                      6,       2018-11-17 10:04:06
-           3,                      qian,                     8,        2018-11-17 10:04:06
-           4,                       jian,                     3,       2018-11-17 10:04:06
-
-
-
-
-
-use taobao;
-
-insert into yonghu(yonghu_name,zhuangbei_id) values
-('xiaojing',1),('wenjing',1),('jianan',2);
-
-
-
-# yonghu_id, yonghu_name, zhuangbei_id, last_update
-         1,               xiaojing,              1,       2018-11-17 10:08:56
-         2,                wenjing,             1,       2018-11-17 10:08:56
-         3,                jianan,                2,       2018-11-17 10:08:56
 
 
 
